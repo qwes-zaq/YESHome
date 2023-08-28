@@ -1,6 +1,8 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using YesHome.Data;
-using YesHome.Data.Models;
+using YESHome.Data.Models;
+using YESHome.Data;
 
 namespace YESHome
 {
@@ -13,8 +15,7 @@ namespace YESHome
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<YESHomeDb>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-            builder.Services.AddIdentity<User, Role>().AddEntityFrameworkStores<YESHomeDb>();
-
+            builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<YESHomeDb>();
 
             var app = builder.Build();
 
@@ -31,6 +32,7 @@ namespace YESHome
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(

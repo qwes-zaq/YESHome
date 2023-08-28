@@ -1,4 +1,4 @@
-﻿namespace YesHome.Data.Models
+﻿namespace YESHome.Data.Models
 {
     public class Place
     {

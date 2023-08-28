@@ -1,9 +1,9 @@
-﻿namespace YesHome.Data.Models
+﻿namespace YESHome.Data.Models
 {
     public class Report
     {
         public int Id { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public int PlaceId { get; set; }
         public DateTime WorkStart { get; set; }
         public Place Place { get; set; } = new Place();

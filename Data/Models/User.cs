@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace YesHome.Data.Models
+namespace YESHome.Data.Models
 {
-    public class User : IdentityUser<int>
+    public class User : IdentityUser
     {
         public User()
         {
             Reports = new List<Report>();
         }
-        public string FirstName { get; set; }
-        public string SecondName { get; set; }
+        //public string FirstName { get; set; }
+        //public string SecondName { get; set; }
 
         public ICollection<Report> Reports { get; set; }
 
