@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace YESHome.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    //[Route("{area}/{controller}/{action}/{id?}")]
+    [Authorize(Roles = "Admin")]
     public class HomeController : Controller
     {
         public IActionResult Index()

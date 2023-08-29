@@ -10,7 +10,7 @@ namespace YESHome.Data.Models
         }
         //public string FirstName { get; set; }
         //public string SecondName { get; set; }
-
+        public DateTime RegistrationDate { get; set; }
         public ICollection<Report> Reports { get; set; }
 
     }

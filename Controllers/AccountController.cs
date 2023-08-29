@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using YESHome.Data.Models;
+using YESHome.Models.AccountVM;
 
 namespace YESHome.Controllers
 {
@@ -18,10 +20,69 @@ namespace YESHome.Controllers
             _roleManager = roleManager;
         }
 
-
-        public IActionResult Index()
+        [HttpGet]
+        public IActionResult Register()
         {
             return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterVM model)
+        {
+            if (ModelState.IsValid)
+            {
+                User user = new User { PhoneNumber = model.PhoneNumber, UserName = model.UserName, RegistrationDate=DateTime.Now };
+                // добавляем пользователя
+                var result = await _userManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    // установка куки
+                    await _signInManager.SignInAsync(user, false);
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                }
+            }
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult Login(string returnUrl="")
+        {
+            return View(new LoginVM());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginVM model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result =
+                    await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, false);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Неправильный логин и (или) пароль");
+                }
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout()
+        {
+            // удаляем аутентификационные куки
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
         }
 
         public async Task<IActionResult> AdminCreate()
@@ -48,12 +109,12 @@ namespace YESHome.Controllers
                     //FirstName = "",
                     UserName = "TestName",
                     PhoneNumber = "+994 50 123 4567",
-                    Email = "info@yeshome.az",
+                    Email = "Test@mail.com",
                     SecurityStamp = Guid.NewGuid().ToString() // Set a unique security stamp
                 };
-                var result = await _userManager.CreateAsync(Nizami, "YesHomeAdmin.1");
+                var result = await _userManager.CreateAsync(Nizami, "YesHomeAdmin");
 
-                result = await _userManager.CreateAsync(testUser, "YesHomeTest.1");
+                result = await _userManager.CreateAsync(testUser, "YesHomeTest");
 
                 await _userManager.AddToRoleAsync(Nizami, "Admin");
                 await _userManager.AddToRoleAsync(testUser, "Employee");

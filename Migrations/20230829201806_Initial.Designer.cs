@@ -12,7 +12,7 @@ using YesHome.Data;
 namespace YESHome.Migrations
 {
     [DbContext(typeof(YESHomeDb))]
-    [Migration("20230828190338_Initial")]
+    [Migration("20230829201806_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -251,6 +251,9 @@ namespace YESHome.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<DateTime>("RegistrationDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");

@@ -15,7 +15,15 @@ namespace YESHome
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<YESHomeDb>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-            builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<YESHomeDb>();
+            builder.Services.AddIdentity<User, IdentityRole>(options =>
+            {
+                options.Password.RequiredLength = 8;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireDigit = false;
+            })
+                .AddEntityFrameworkStores<YESHomeDb>();
 
             var app = builder.Build();
 
