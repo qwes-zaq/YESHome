@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Data;
 using YESHome.Data.Models;
 using YESHome.Models.AccountVM;
 
@@ -30,7 +29,7 @@ namespace YESHome.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = new User { PhoneNumber = model.PhoneNumber, UserName = model.UserName, RegistrationDate=DateTime.Now };
+                User user = new User { PhoneNumber = model.PhoneNumber, UserName = model.UserName, RegistrationDate=DateTime.Today };
                 // добавляем пользователя
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -64,8 +63,13 @@ namespace YESHome.Controllers
             {
                 var result =
                     await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, false);
+                //User user = await _userManager.FindByNameAsync(model.UserName);
                 if (result.Succeeded)
                 {
+                    if (model.UserName=="Nizami")
+                    {
+                        return RedirectToAction("Index", "Home", new { area = "Admin" });
+                    }
                     return RedirectToAction("Index", "Home");
                 }
                 else

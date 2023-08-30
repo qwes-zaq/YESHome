@@ -1,29 +1,39 @@
 ﻿@model RegisterVM
-<h2>Регистрация нового пользователя</h2>
+@if (!User.Identity.IsAuthenticated)
+{
+    <h2>Регистрация нового пользователя</h2>
 
-<form method="post" asp-controller="Account" asp-action="Register">
-    <div asp-validation-summary="ModelOnly"></div>
-    <div>
-        <label asp-for="UserName"></label><br />
-        <input asp-for="UserName" />
-        <span asp-validation-for="UserName"></span>
-    </div> 
-    <div>
-        <label asp-for="PhoneNumber"></label><br />
-        <input asp-for="PhoneNumber" />
-        <span asp-validation-for="PhoneNumber"></span>
-    </div>
-    <div>
-        <label asp-for="Password"></label><br />
-        <input asp-for="Password" />
-        <span asp-validation-for="Password"></span>
-    </div>
-    <div>
-        <label asp-for="PasswordConfirm"></label><br />
-        <input asp-for="PasswordConfirm" />
-        <span asp-validation-for="PasswordConfirm"></span>
-    </div>
-    <div>
-        <input type="submit" value="Регистрация" />
-    </div>
-</form>
+    <form method="post" asp-controller="Account" asp-action="Register">
+        <div asp-validation-summary="ModelOnly"></div>
+        <div>
+            <label asp-for="UserName"></label><br />
+            <input asp-for="UserName" />
+            <span asp-validation-for="UserName"></span>
+        </div> 
+        <div>
+            <label asp-for="PhoneNumber"></label><br />
+            <input asp-for="PhoneNumber" />
+            <span asp-validation-for="PhoneNumber"></span>
+        </div>
+        <div>
+            <label asp-for="Password"></label><br />
+            <input asp-for="Password" />
+            <span asp-validation-for="Password"></span>
+        </div>
+        <div>
+            <label asp-for="PasswordConfirm"></label><br />
+            <input asp-for="PasswordConfirm" />
+            <span asp-validation-for="PasswordConfirm"></span>
+        </div>
+        <div>
+            <input type="submit" value="Регистрация" />
+        </div>
+    </form>
+}
+else
+{
+    <h2>You are already login )</h2>
+    <form method="post" asp-controller="Account" asp-action="Logout">
+        <input type="submit" value="Exit" />
+    </form>
+}
