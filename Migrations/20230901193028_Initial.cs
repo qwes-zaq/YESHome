@@ -55,8 +55,7 @@ namespace YESHome.Migrations
                 name: "Places",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Longitude = table.Column<double>(type: "float", nullable: false),
                     Latitude = table.Column<double>(type: "float", nullable: false)
@@ -176,10 +175,9 @@ namespace YESHome.Migrations
                 name: "Reports",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    PlaceId = table.Column<int>(type: "int", nullable: false),
+                    PlaceId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     WorkStart = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>

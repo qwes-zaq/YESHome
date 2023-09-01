@@ -12,7 +12,7 @@ using YesHome.Data;
 namespace YESHome.Migrations
 {
     [DbContext(typeof(YESHomeDb))]
-    [Migration("20230829201806_Initial")]
+    [Migration("20230901193028_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -160,11 +160,8 @@ namespace YESHome.Migrations
 
             modelBuilder.Entity("YESHome.Data.Models.Place", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<double>("Latitude")
                         .HasColumnType("float");
@@ -183,14 +180,12 @@ namespace YESHome.Migrations
 
             modelBuilder.Entity("YESHome.Data.Models.Report", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("PlaceId")
-                        .HasColumnType("int");
+                    b.Property<string>("PlaceId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("UserId")
                         .IsRequired()

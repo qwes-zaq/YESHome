@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/YESHome.styles.css" asp-append-version="true" />
-    <link rel="icon" href="~/Logo.png" type="image/icon type">
+    <link rel="icon" href="~/logo.png" type="image/icon type">
 </head>
 <body>
     <header>
@@ -62,18 +62,10 @@
                             </a>
                         </li>
 
-                        @if (!User.Identity.IsAuthenticated)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
-                            </li>
-                        }
-                        else
-                        {
-                            <form method="post" asp-controller="Account" asp-action="Logout">
+                       
+                            <form method="post" asp-area="" asp-controller="Account" asp-action="Logout">
                                 <input type="submit" value="Exit" />
                             </form>
-                        }
 
                         <li class="nav-item">
                             <a class="nav-link" href="#">

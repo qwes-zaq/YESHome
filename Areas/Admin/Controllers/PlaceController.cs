@@ -26,11 +26,26 @@ namespace YESHome.Areas.Admin.Controllers
         // GET: Admin/Places
         public async Task<IActionResult> Index()
         {
-            var places = await _context.Places
-                .Include(x => x.Reports)
-                .ThenInclude(x => x.User)
-                .Where(x => x.Reports.FirstOrDefault(x => x.WorkStart.Date == DateTime.Today) != null)
-                .ToListAsync();
+            //var places = await _context.Places
+            //    .Include(x => x.Reports)
+            //    .ThenInclude(x => x.User)
+            //    .Where(x => x.Reports.FirstOrDefault(x => x.WorkStart.Date == DateTime.Today) != null)
+            //    .ToListAsync();
+
+            //List<InfoVM> list = new();
+            //foreach (var place in places)
+            //{
+            //    InfoVM tmp = new()
+            //    {
+            //        Id = place.Id,
+            //        Name = place.Name,
+            //        EmployeeNames = place.Reports.Select(x => x.User.UserName).ToList() 
+            //    };
+
+            //    list.Add(tmp);
+            //}
+
+            var places = await _context.Places.ToListAsync();
 
             List<InfoVM> list = new();
             foreach (var place in places)
@@ -38,8 +53,7 @@ namespace YESHome.Areas.Admin.Controllers
                 InfoVM tmp = new()
                 {
                     Id = place.Id,
-                    Name = place.Name,
-                    EmployeeNames = place.Reports.Select(x => x.User.UserName).ToList() 
+                    Name = place.Name
                 };
 
                 list.Add(tmp);
@@ -49,7 +63,7 @@ namespace YESHome.Areas.Admin.Controllers
         }
 
         // GET: Admin/Places/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(string? id)
         {
             if (id == null || _context.Places == null)
             {
@@ -77,19 +91,24 @@ namespace YESHome.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Longitude,Latitude")] Place place)
+        public async Task<IActionResult> Create(PlaceCreateVM model)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(place);
+                _context.Places.Add(new Place() 
+                {
+                    Name=model.Name,
+                    Latitude= Convert.ToDouble(model.Latitude.Replace(".",",")),
+                    Longitude= Convert.ToDouble(model.Longitude.Replace(".", ","))
+                });
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(place);
+            return View(model);
         }
 
         // GET: Admin/Places/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(string id)
         {
             if (id == null || _context.Places == null)
             {
@@ -101,7 +120,12 @@ namespace YESHome.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            return View(place);
+            return View(new PlaceEditVM() { 
+                Id= place.Id,
+                Name=place.Name,
+                Latitude=""+place.Latitude,
+                Longitude="" + place.Longitude
+                });
         }
 
         // POST: Admin/Places/Edit/5
@@ -109,23 +133,23 @@ namespace YESHome.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Longitude,Latitude")] Place place)
+        public async Task<IActionResult> Edit(PlaceEditVM model)
         {
-            if (id != place.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(place);
+                    var oldPlace = _context.Places.FirstOrDefault(x=>x.Id==model.Id);
+                    oldPlace.Name = model.Name;
+                    oldPlace.Latitude = Convert.ToDouble(model.Latitude.Replace(".", ","));
+                    oldPlace.Longitude = Convert.ToDouble(model.Longitude.Replace(".", ","));
+
+                    _context.Update(oldPlace);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PlaceExists(place.Id))
+                    if (!PlaceExists(model.Id))
                     {
                         return NotFound();
                     }
@@ -136,11 +160,11 @@ namespace YESHome.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(place);
+            return View(model);
         }
 
         // GET: Admin/Places/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(string id)
         {
             if (id == null || _context.Places == null)
             {
@@ -176,7 +200,7 @@ namespace YESHome.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PlaceExists(int id)
+        private bool PlaceExists(string id)
         {
             return (_context.Places?.Any(e => e.Id == id)).GetValueOrDefault();
         }

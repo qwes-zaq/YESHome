@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using YesHome.Data;
 using YESHome.Data.Models;
 using YESHome.Data;
+using System.Globalization;
 
 namespace YESHome
 {
@@ -24,6 +25,7 @@ namespace YESHome
                 options.Password.RequireDigit = false;
             })
                 .AddEntityFrameworkStores<YESHomeDb>();
+
 
             var app = builder.Build();
 
