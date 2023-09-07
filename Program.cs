@@ -4,6 +4,8 @@ using YesHome.Data;
 using YESHome.Data.Models;
 using YESHome.Data;
 using System.Globalization;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
+using System.Net;
 
 namespace YESHome
 {
@@ -26,6 +28,10 @@ namespace YESHome
             })
                 .AddEntityFrameworkStores<YESHomeDb>();
 
+            //builder.Services.Configure<KestrelServerOptions>(options =>
+            //{
+            //    options.ListenAnyIP(44348); 
+            //});
 
             var app = builder.Build();
 

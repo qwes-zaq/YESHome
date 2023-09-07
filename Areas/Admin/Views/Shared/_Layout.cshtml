@@ -8,18 +8,24 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/YESHome.styles.css" asp-append-version="true" />
     <link rel="icon" href="~/logo.png" type="image/icon type">
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
-    <header>
+    <header class="container">
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="Admin" asp-controller="Home" asp-action="Index">YESHome</a>
+                <a class="navbar-brand" asp-area="Admin" asp-controller="Home" asp-action="Index">
+                    <img src="~/Logo.png" alt="..." height="36">
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                    <ul class="navbar-nav flex-grow-1 text-right justify-content-end">
+                        <!-- Добавлен класс justify-content-end -->
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="Admin" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
@@ -33,67 +39,17 @@
                             <a class="nav-link text-dark" asp-area="Admin" asp-controller="User" asp-action="Index">Работники</a>
                         </li>
                     </ul>
-                </div>
-            </div>
-        </nav>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light static-top">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img src="~/Logo.png" alt="..." height="36">
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Home</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                Link
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                Link
-                            </a>
-                        </li>
-
-                       
-                            <form method="post" asp-area="" asp-controller="Account" asp-action="Logout">
-                                <input type="submit" value="Exit" />
-                            </form>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                Link
-                            </a>
-                        </li>
-
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Dropdown
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                            </ul>
-                        </li>
-                    </ul>
+                    <form method="post" asp-controller="Account" asp-action="Logout" class="ml-3">
+                        <button class="btn btn-danger" type="submit">Выход</button> 
+                    </form>
                 </div>
             </div>
         </nav>
 
-
+       
     </header>
     <div class="container">
+      
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
@@ -106,6 +62,8 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

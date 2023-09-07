@@ -1,0 +1,30 @@
+﻿@model ReportVM 
+<form method="post" asp-controller="Report" asp-action="Index">
+    <div asp-validation-summary="ModelOnly"></div>
+    <input asp-for="@Model.Latitude" id="latitude" type="hidden"/>
+    <input asp-for="@Model.Longitude" id="longitude" type="hidden"/>
+
+    <div>
+        <input type="submit" class="btn btn-primary btn-lg" value="на объекте" />
+    </div>
+</form>
+
+
+
+<script>
+    (function getLocation() {
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var latitudeValue = position.coords.latitude;
+                var longitudeValue = position.coords.longitude;
+
+                document.getElementById("longitude").value = longitudeValue;
+                document.getElementById("latitude").value = latitudeValue;
+            });
+        } else {
+            alert("Error");
+        }
+    }())
+
+
+</script>

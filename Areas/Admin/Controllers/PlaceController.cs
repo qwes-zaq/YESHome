@@ -204,37 +204,6 @@ namespace YESHome.Areas.Admin.Controllers
         {
             return (_context.Places?.Any(e => e.Id == id)).GetValueOrDefault();
         }
-
-        public static double CalculateDistance(double lat1, double lon1, double lat2, double lon2)
-        {
-            const double earthRadius = 6371; // Радиус Земли в километрах
-
-            // Переводим координаты в радианы
-            double lat1Rad = DegToRad(lat1);
-            double lon1Rad = DegToRad(lon1);
-            double lat2Rad = DegToRad(lat2);
-            double lon2Rad = DegToRad(lon2);
-
-            // Разница широты и долготы
-            double deltaLat = lat2Rad - lat1Rad;
-            double deltaLon = lon2Rad - lon1Rad;
-
-            // Формула гаверсинусов
-            double a = Math.Pow(Math.Sin(deltaLat / 2), 2) +
-                       Math.Cos(lat1Rad) * Math.Cos(lat2Rad) * Math.Pow(Math.Sin(deltaLon / 2), 2);
-
-            double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
-
-            // Расстояние между точками
-            double distance = earthRadius * c;
-
-            return distance;
-        }
-
-        private static double DegToRad(double degrees)
-        {
-            return degrees * (Math.PI / 180);
-        }
     }
 
 }

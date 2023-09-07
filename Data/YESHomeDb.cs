@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 using YESHome.Data.Models;
+using YESHome.Areas.Admin.Models.UserVM;
 
 namespace YesHome.Data
 {
@@ -32,6 +33,8 @@ namespace YesHome.Data
               .WithMany(g => g.Reports)
               .HasForeignKey(s => s.UserId);
         }
+        public DbSet<YESHome.Areas.Admin.Models.UserVM.UserVM> UserVM { get; set; } = default!;
+        public DbSet<YESHome.Areas.Admin.Models.UserVM.UserDeleteVM> UserDeleteVM { get; set; } = default!;
     }
 
 }
