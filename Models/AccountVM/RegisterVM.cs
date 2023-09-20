@@ -7,6 +7,10 @@ namespace YESHome.Models.AccountVM
         [Required]
         [Display(Name = "Ad")]
         public string UserName { get; set; }
+        [Required]
+        [Display(Name = "Ad")]
+        public string FirstName { get; set; }
+        public string SecondName { get; set; }
 
         [Required]
         [Display(Name = "Год рождения")]

@@ -36,7 +36,7 @@ namespace YESHome.Controllers
                 {
                     // установка куки
                     await _signInManager.SignInAsync(user, false);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Report");
                 }
                 else
                 {
@@ -70,7 +70,7 @@ namespace YESHome.Controllers
                     {
                         return RedirectToAction("Index", "Home", new { area = "Admin" });
                     }
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Report");
                 }
                 else
                 {
@@ -94,7 +94,6 @@ namespace YESHome.Controllers
             if (!_roleManager.Roles.Any())
             {
                 await _roleManager.CreateAsync(new IdentityRole { Name = "Admin" });
-                await _roleManager.CreateAsync(new IdentityRole { Name = "Employee" });
 
             }
 
@@ -121,7 +120,6 @@ namespace YESHome.Controllers
                 result = await _userManager.CreateAsync(testUser, "YesHomeTest");
 
                 await _userManager.AddToRoleAsync(Nizami, "Admin");
-                await _userManager.AddToRoleAsync(testUser, "Employee");
 
 
             }

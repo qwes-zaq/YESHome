@@ -28,6 +28,8 @@ namespace YESHome
             })
                 .AddEntityFrameworkStores<YESHomeDb>();
 
+            builder.Services.ConfigureApplicationCookie(options => options.LoginPath = "/Account/Login");
+
             //builder.Services.Configure<KestrelServerOptions>(options =>
             //{
             //    options.ListenAnyIP(44348); 

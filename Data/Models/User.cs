@@ -8,8 +8,8 @@ namespace YESHome.Data.Models
         {
             Reports = new List<Report>();
         }
-        //public string FirstName { get; set; }
-        //public string SecondName { get; set; }
+        public string? FirstName { get; set; }
+        public string? SecondName { get; set; }
         public DateTime RegistrationDate { get; set; }
         public ICollection<Report> Reports { get; set; }
     }

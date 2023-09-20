@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using YesHome.Data;
@@ -7,24 +9,31 @@ using YESHome.Models.ReportVM;
 
 namespace YESHome.Controllers
 {
+    [Authorize]
     public class ReportController : Controller
     {
         private readonly YESHomeDb _context;
-        public ReportController(YESHomeDb context)
+        private readonly UserManager<User> _userManager;
+        public ReportController(YESHomeDb context, UserManager<User> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
         // GET: ReportController
         public IActionResult Index()
         {
-            return View(new ReportVM());
+            var id = _userManager.GetUserId(User);
+            var report = _context.Reports?.FirstOrDefault(r => r.WorkStart==DateTime.Today);
+            return View(new ReportVM()
+            {
+                IsAlredyOnPlace = report != null
+            }) ;
         }
 
         [HttpPost]
-        public IActionResult Index(ReportVM model)
+        public async Task<IActionResult> IndexAsync(ReportVM model)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // will give the user's userId
-
+            var user = await _userManager.GetUserAsync(User);
             var place = GetPlace(model);
             if (place == null)
             {
@@ -33,7 +42,7 @@ namespace YESHome.Controllers
 
             Report report = new Report()
             {
-                UserId = userId,
+                User = user,
                 Place = place,
                 WorkStart = DateTime.Today
             };
